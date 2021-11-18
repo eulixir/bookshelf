@@ -5,6 +5,7 @@ import theme from '../styles/theme';
 const myTheme = extendTheme(theme);
 
 function MyApp({ Component, pageProps }) {
+
   return (
     <ChakraProvider theme={myTheme}>
       <AuthProvider>

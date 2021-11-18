@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import {
     Box,
     Flex,
@@ -10,16 +11,16 @@ import {
     MenuList,
     MenuItem,
     MenuDivider,
-    useColorModeValue,
     Stack,
-    useColorMode,
     Center,
     Image
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { FaShoppingCart, FaBell, FaRegCommentAlt, FaHome } from 'react-icons/fa';
+import useAuth from 'src/hooks/useAuth';
+import Auth from './Auth';
 
 const NavLink = ({ children }) => (
+
     <Link
         px={2}
         py={1}
@@ -35,14 +36,14 @@ const NavLink = ({ children }) => (
 );
 
 export default function Nav() {
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { user, signout } = useAuth();
     return (
         <>
-            <Box bg={useColorModeValue('black', 'black')} px={6}>
+            <Box bg={'black'} px={6}>
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                     <HStack spacing={430} alignItems={'center'}>
-                        <Box><Image boxSize="50px"
-                            objectFit="cover" src="./logowhite.png"></Image></Box>
+                        <Box><Link href="/dashboard"><Image boxSize="50px"
+                            objectFit="cover" src="./logowhite.png"></Image></Link></Box>
 
                         <HStack
                             as={'nav'}
@@ -53,43 +54,40 @@ export default function Nav() {
                             <NavLink href="/write"><Image boxSize="50px" objectFit="cover" src="./penicon.png"></Image></NavLink>
                             <NavLink href="/notification"><FaBell size={30} /></NavLink>
                             <NavLink href="/messages"><FaRegCommentAlt size={30} /></NavLink>
+                            <NextLink href="/write" passHref>
+                                <Link mr={4}><Image boxSize="50px" objectFit="cover" src="./penicon.png"></Image></Link>
+                            </NextLink>
                         </HStack>
                     </HStack>
                     <Flex alignItems={'center'}>
                         <Stack direction={'row'} spacing={7}>
-                            <Button onClick={toggleColorMode}>
-                                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-                            </Button>
 
                             <Menu>
                                 <MenuButton
-                                    as={Button}
+                                    as={Avatar}
                                     rounded={'full'}
                                     variant={'link'}
                                     cursor={'pointer'}
                                     minW={0}>
-                                    <Avatar
-                                        size={'sm'}
-                                        src={'https://avatars.dicebear.com/api/male/username.svg'}
-                                    />
+                                    name={'luiz'}
+                                    src={'https://picsum.photos/200/300'}
                                 </MenuButton>
                                 <MenuList alignItems={'center'}>
                                     <br />
                                     <Center>
                                         <Avatar
-                                            size={'2xl'}
-                                            src={'https://avatars.dicebear.com/api/male/username.svg'}
+                                            size={'3xl'}
+                                            src={'https://picsum.photos/200/300'}
                                         />
                                     </Center>
                                     <br />
                                     <Center>
-                                        <p>Username</p>
+                                        <p>user</p>
                                     </Center>
                                     <br />
                                     <MenuDivider />
-                                    <MenuItem>Your Servers</MenuItem>
-                                    <MenuItem>Account Settings</MenuItem>
-                                    <MenuItem>Logout</MenuItem>
+                                    <MenuItem><Link href="/profile">Perfil</Link></MenuItem>
+                                    <MenuItem onClick={() => signout()} >Logout</MenuItem>
                                 </MenuList>
                             </Menu>
                         </Stack>

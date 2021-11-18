@@ -1,7 +1,23 @@
 import { Flex, Box, Heading, Input, Text } from '@chakra-ui/react';
+import { signup, useAuth } from "../lib/firebase";
 import Logo from '../components/Logo';
+import { useRef, useState, Route, Router } from 'react';
+
 
 export default function SignUp() {
+
+    const emailRef = useRef();
+    const passwordRef = useRef();
+
+    async function handleSignup() {
+
+        try {
+            await signup(emailRef.current.value, passwordRef.current.value);
+        } catch {
+            alert("Error");
+        }
+    }
+
     return (
         <Flex height="80vh" direction="column" alignItems="center" justifyContent="center">
             <Flex mt={8} mb={4}><Logo /></Flex>
@@ -9,13 +25,10 @@ export default function SignUp() {
 
                 <Heading mb={6} color="#212121">Cadastrar</Heading>
 
-                <Input placeholder="Usuário" border="none" bg="white" mb={3} type="text" focusBorderColor="black" boxShadow="xl"
-                    isRequired errorBorderColor="crimson" />
-
-                <Input placeholder="Email" border="none" bg="white" mb={3} focusBorderColor="black" boxShadow="xl"
+                <Input ref={emailRef} placeholder="Email" border="none" bg="white" mb={3} focusBorderColor="black" boxShadow="xl"
                     isRequired errorBorderColor="crimson" type="email" />
 
-                <Input placeholder="Senha" border="none" bg="white" boxShadow="xl" focusBorderColor="black"
+                <Input ref={passwordRef} placeholder="Senha" border="none" bg="white" boxShadow="xl" focusBorderColor="black"
                     errorBorderColor="crimson" isRequired mb={6} type="password" />
 
                 <Box as="button"
@@ -27,8 +40,8 @@ export default function SignUp() {
                     fontSize="18px"
                     fontWeight="medium"
                     borderRadius="4px"
-                    href="dashboard"
                     boxShadow="xl"
+                    onClick={handleSignup}
                 >
                     Enviar
                 </Box>

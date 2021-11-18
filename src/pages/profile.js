@@ -1,6 +1,6 @@
 import Nav from '../components/Nav';
 
-function Shop() {
+function Profile() {
 
     return (
         <Nav />
@@ -8,4 +8,4 @@ function Shop() {
     )
 }
 
-export default Shop;
+export default Profile;
