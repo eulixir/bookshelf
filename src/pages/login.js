@@ -11,11 +11,8 @@ export default function Login() {
 
   async function handleLogin() {
     try {
-      await login(emailRef.current.value, passwordRef.current.value).then(
-        () => {
-          router.push('/dashboard');
-        }
-      );
+      login(emailRef.current.value, passwordRef.current.value);
+      router.push('/dashboard');
     } catch {
       alert('Error');
     }

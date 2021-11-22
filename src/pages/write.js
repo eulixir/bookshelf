@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
 
 export default function Books() {
   const [title, setTitle] = useState('');
@@ -17,6 +18,8 @@ export default function Books() {
 
   const handleCreate = (e) => {
     e.preventDefault();
+
+    const email = Cookies.get('email');
   };
 
   return (
