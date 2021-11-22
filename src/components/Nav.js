@@ -15,28 +15,26 @@ import {
     Center,
     Image
 } from '@chakra-ui/react';
-import { FaShoppingCart, FaBell, FaRegCommentAlt, FaHome } from 'react-icons/fa';
+
+import { FaShoppingCart, FaBook, FaRegCommentAlt, FaHome } from 'react-icons/fa';
 import useAuth from 'src/hooks/useAuth';
-import Auth from './Auth';
+import { logout } from '../lib/firebase';
+import { useRouter } from 'next/router';
 
-const NavLink = ({ children }) => (
 
-    <Link
-        px={2}
-        py={1}
-        rounded={'md'}
-        color="white"
-        _hover={{
-            textDecoration: 'none',
-            border: '1px white solid',
-        }}
-        href={'#'}>
-        {children}
-    </Link>
-);
 
 export default function Nav() {
-    const { user, signout } = useAuth();
+    const { user } = useAuth();
+    const router = useRouter();
+
+    async function handleLogout() {
+        try {
+            router.push('/');
+        } catch {
+            alert("Error");
+        }
+    }
+
     return (
         <>
             <Box bg={'black'} px={6}>
@@ -49,13 +47,20 @@ export default function Nav() {
                             as={'nav'}
                             spacing={4}
                             display={{ base: 'none', md: 'flex' }}>
-                            <NavLink href="/dashboard"><FaHome size={30} /></NavLink>
-                            <NavLink href="/shop"><FaShoppingCart size={30} /></NavLink>
-                            <NavLink href="/write"><Image boxSize="50px" objectFit="cover" src="./penicon.png"></Image></NavLink>
-                            <NavLink href="/notification"><FaBell size={30} /></NavLink>
-                            <NavLink href="/messages"><FaRegCommentAlt size={30} /></NavLink>
+                            <NextLink href="/dashboard" passHref>
+                                <Link mr={8}><FaHome size={30} color="#ffffff" /></Link>
+                            </NextLink>
+                            <NextLink href="/shop" passHref>
+                                <Link mr={8}><FaShoppingCart color="#ffffff" size={30} /></Link>
+                            </NextLink>
                             <NextLink href="/write" passHref>
-                                <Link mr={4}><Image boxSize="50px" objectFit="cover" src="./penicon.png"></Image></Link>
+                                <Link ml={8} mr={8}><Image boxSize="50px" objectFit="cover" src="./penicon.png"></Image></Link>
+                            </NextLink>
+                            <NextLink href="/book/slug" passHref>
+                                <Link mr={8}><FaBook color="#ffffff" size={30} /></Link>
+                            </NextLink>
+                            <NextLink href="/messages" passHref>
+                                <Link><FaRegCommentAlt color="#ffffff" size={30} /></Link>
                             </NextLink>
                         </HStack>
                     </HStack>
@@ -69,14 +74,12 @@ export default function Nav() {
                                     variant={'link'}
                                     cursor={'pointer'}
                                     minW={0}>
-                                    name={'luiz'}
-                                    src={'https://picsum.photos/200/300'}
                                 </MenuButton>
                                 <MenuList alignItems={'center'}>
                                     <br />
                                     <Center>
                                         <Avatar
-                                            size={'3xl'}
+                                            size={'2xl'}
                                             src={'https://picsum.photos/200/300'}
                                         />
                                     </Center>
@@ -87,7 +90,7 @@ export default function Nav() {
                                     <br />
                                     <MenuDivider />
                                     <MenuItem><Link href="/profile">Perfil</Link></MenuItem>
-                                    <MenuItem onClick={() => signout()} >Logout</MenuItem>
+                                    <MenuItem as='button' onClick={handleLogout} >Logout</MenuItem>
                                 </MenuList>
                             </Menu>
                         </Stack>

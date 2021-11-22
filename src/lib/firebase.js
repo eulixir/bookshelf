@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, firebase } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import 'firebase/database';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -15,6 +17,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore()
 const auth = getAuth(app);
 
 export function signup(email, password) {
@@ -29,4 +32,4 @@ export function logout() {
     signOut(auth);
 }
 
-export default firebase;
+export { firebase, db, auth };

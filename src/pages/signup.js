@@ -2,17 +2,20 @@ import { Flex, Box, Heading, Input, Text } from '@chakra-ui/react';
 import { signup, useAuth } from "../lib/firebase";
 import Logo from '../components/Logo';
 import { useRef, useState, Route, Router } from 'react';
-
-
+import { useRouter } from 'next/router';
 export default function SignUp() {
 
     const emailRef = useRef();
     const passwordRef = useRef();
+    const router = useRouter();
 
     async function handleSignup() {
 
         try {
-            await signup(emailRef.current.value, passwordRef.current.value);
+            await signup(emailRef.current.value, passwordRef.current.value)
+                .then(() => {
+                    router.push('/dashboard');
+                })
         } catch {
             alert("Error");
         }

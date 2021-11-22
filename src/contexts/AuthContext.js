@@ -1,8 +1,8 @@
-import { createContext, useState, useEffect } from 'react';
-import Router from 'next/router';
+import { createContext, useState, useEffect, } from 'react';
+import { useRouter } from 'next/router';
 import cookie from 'js-cookie';
 import firebase from '../lib/firebase';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const AuthContext = createContext();
 
@@ -18,6 +18,7 @@ const formatUser = async (user) => ({
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     const handleUser = async (currentUser) => {
         if (currentUser) {
@@ -42,48 +43,24 @@ export function AuthProvider({ children }) {
         }
     }
 
-    const signinGoogle = async () => {
-        try {
-            setLoading(true);
-            const response = await firebase
-                .auth()
-                .signInWithPopup(new firebase.auth.GoogleAuthProvider());
-            handleUser(response.user);
-        } finally {
-            setLoading(false);
-        }
+    function signup(email, password) {
+        return createUserWithEmailAndPassword(auth, email, password);
     }
 
-    const signin = async () => {
-        try {
-            setLoading(true);
-            const response = await firebase
-                .auth()
-                .signInWithEmailAndPassword();
-            handleUser(response.user);
-        } finally {
-            setLoading(false);
-        }
+    function login(email, password) {
+        return signInWithEmailAndPassword(auth, email, password);
     }
 
-    const signout = async () => {
-        try {
-            Router.push('/');
-            await firebase.auth().signOut();
-            handleUser(false);
-
-        } finally {
-            setLoading(false);
-        }
+    function logout() {
+        signOut(auth);
     }
-
 
     return <AuthContext.Provider value={{
         user,
         loading,
-        signinGoogle,
-        signin,
-        signout
+        signup,
+        login,
+        logout,
     }}> {children}</AuthContext.Provider>;
 }
 

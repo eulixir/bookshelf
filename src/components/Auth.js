@@ -1,13 +1,7 @@
-import { Link, VStack, Flex, Text, StackDivider, Box, Button, Image } from '@chakra-ui/react';
-import { FaGoogle } from 'react-icons/fa';
-import useAuth from 'src/hooks/useAuth';
+import { Link, VStack, Flex, Text, StackDivider, Box } from '@chakra-ui/react';
+import Logo from '../components/Logo';
 
 export default function AuthPage() {
-    const { signinGoogle } = useAuth();
-
-    const handleSigninGoogle = () => {
-        signinGoogle();
-    };
 
     return (
 
@@ -26,7 +20,7 @@ export default function AuthPage() {
                 align="stretch"
             >
                 <Box mb="30">
-                    <Image boxSize="100px" objectFit="cover" src="./logo.png" />
+                    <Logo />
                     <Text fontSize="50px" color="black" fontWeight="bold">BookShelf</Text>
                 </Box>
                 <Link href="/signup"><Box as="button"
@@ -43,22 +37,6 @@ export default function AuthPage() {
                     CADASTRAR
                 </Box>
                 </Link>
-                <Button
-                    onClick={() => handleSigninGoogle()}
-                    backgroundColor="white"
-                    color="gray.900"
-                    variant="outline"
-                    fontWeight="medium"
-                    leftIcon={<FaGoogle />}
-                    mt={4}
-                    _hover={{ bg: 'gray.100' }}
-                    _active={{
-                        bg: 'gray.100',
-                        transform: 'scale(0.95)',
-                    }}
-                >
-                    Continuar com Google
-                </Button>
                 <Link href="/login"><Box as="button"
                     size="md"
                     height="40px"
